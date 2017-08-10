@@ -1,5 +1,5 @@
-import config
-from decoder import Decoder 
+from . import config
+from . import decoder
 from datetime import datetime
 import RPi.GPIO as GPIO
 
@@ -9,7 +9,7 @@ def listen(callback):
 		GPIO.setmode(GPIO.BOARD)
 		GPIO.setup(config.signalPin, GPIO.IN)
 
-		decoder = Decoder()
+		dec = decoder.Decoder()
 		while True:
 			defaultCycles = 0
 			value = config.defaultInput
@@ -23,17 +23,17 @@ def listen(callback):
 			while True:
 				if(previousValue != value):
 					diff = datetime.now()-lastTime
-					decoder.record((datetime.now()-lastTime).microseconds)
+					dec.record((datetime.now()-lastTime).microseconds)
 					lastTime = datetime.now()
 
-				previousValue = value 
+				previousValue = value
 
 				if(value == config.defaultInput):
 					defaultCycles = defaultCycles+1
 				
 				if(defaultCycles > config.defaultCycles):
-					result = decoder.decode()
-					decoder.reset()
+					result = dec.decode()
+					dec.reset()
 					callback(result)
 					break
 
