@@ -12,10 +12,10 @@ class Decoder:
 
 	def decode(self):
 		ms = time.time()*1000
-		if(self.lastDecodeTime and (ms-self.lastDecodeTime) > config.floodInterval):
+		if(self.lastDecodeTime and (ms-self.lastDecodeTime) > config.opts['floodInterval']):
 			binary = []
 			for (timing) in self.recorded:
-				binary.append(int(timing > config.divider))
+				binary.append(int(timing > config.opts['divider']))
 			self.lastDecode = int("".join(map(str, binary)),2)%10000
 
 		self.lastDecodeTime = ms
