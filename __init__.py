@@ -1,1 +1,1 @@
-import raspir
+from raspir import listen
